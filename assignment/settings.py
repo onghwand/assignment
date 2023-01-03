@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     
     # 3rd party
     'rest_framework',
+    'rest_framework_simplejwt',
     
     # native
     'django.contrib.admin',
@@ -87,6 +88,8 @@ WSGI_APPLICATION = 'assignment.wsgi.application'
 #     }
 # }
 
+
+# MYSQL CONNECTION
 DATABASES = secrets.DATABASES
 SECRET_KEY = secrets.SECRET_KEY
 
@@ -132,3 +135,15 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 직접 설정한 User 사용
+AUTH_USER_MODEL = 'accounts.User'
+
+# jwt 토큰은 simplejwt의 JWTAuthentication으로 인증한다.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+# CORS 
