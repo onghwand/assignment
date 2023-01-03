@@ -30,6 +30,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # local
+    'accounts',
+    'ledgers',
+    
+    # 3rd party
+    'rest_framework',
+    
+    # native
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
