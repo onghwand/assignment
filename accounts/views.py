@@ -23,7 +23,7 @@ def test(request):
 설명: 회원가입
 '''
 @api_view(['POST'])
-def register(request):
+def signup(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
