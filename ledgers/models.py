@@ -9,5 +9,7 @@ class Ledger(models.Model):
     year = models.IntegerField()
     month = models.IntegerField()
     day = models.IntegerField()
-    url = models.CharField(max_length=256, null=True)
+    original_url = models.CharField(max_length=256, null=True)
+    shorten_url = models.CharField(max_length=256, null=True)
+    expiration_time = models.DateTimeField(null=True)
     

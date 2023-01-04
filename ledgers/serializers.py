@@ -13,4 +13,4 @@ class LedgerListSerializer(serializers.ModelSerializer):
 class LedgerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ledger
-        exclude = ("user","url",)
+        exclude = ("user","original_url","shorten_url","expiration_time",)

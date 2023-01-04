@@ -1,4 +1,5 @@
 from django.shortcuts import get_list_or_404, get_object_or_404
+from django.conf import settings
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -6,6 +7,10 @@ from rest_framework.response import Response
 
 from .models import Ledger
 from .serializers import LedgerListSerializer, LedgerSerializer
+
+from hashlib import sha256
+from datetime import datetime, timedelta
+
 # Create your views here.
 '''
 3-a. 가계부에 오늘 사용한 돈의 금액과 관련된 메모를 남길 수 있습니다.
@@ -86,8 +91,24 @@ def ledger_duplicate(request, ledger_pk):
 '''
 3-g. 가계부의 특정 세부 내역을 공유할 수 있게 단축 URL을 만들 수 있습니다.
 '''
-@api_view(["GET"])
-def ledger_url(request, ledger_pk):
-    pass
-
+@api_view(["POST"])
+def make_shorten_url(request, ledger_pk):
+    # 단축 url 제한 시간
+    TIME_LIMIT = timedelta(seconds=60)
+    ledger = get_object_or_404(Ledger, pk=ledger_pk)
+    
+    # 가계부의 주인인 경우에만 권한 부여
+    if request.user == ledger.user:
+        original_url = request.data["url"]
+        present, expiration_time = datetime.now(), datetime.now()+TIME_LIMIT
+        # 동시에 수많은 요청을 받아도 절대 안겹치게 url을 만들수 있나.
+        shorten_url = sha256(original_url.encode()+str(present).encode()).hexdigest()[:8] 
+        
+        # DB 반영
+        ledger.original_url = original_url
+        ledger.shorten_url = shorten_url
+        ledger.expiration_time = expiration_time
+        ledger.save()
+        return Response({"shorten_url": settings.SITE_URL+shorten_url}, status=status.HTTP_201_CREATED)
+    return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
 
