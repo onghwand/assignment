@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/accounts/', include('accounts.urls')),
     path('api/v1/ledgers/', include('ledgers.urls')),
-    # path("<shorten_url>/", views.redirect_shorten_url),
+    path("<shorten_url>/", views.redirect_shorten_url),
 ]

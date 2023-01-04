@@ -51,24 +51,28 @@ def ledger_read_or_update_or_delete(request, ledger_pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def update():
-        serializer = LedgerSerializer(instance=ledger, data=request.data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response({"message": "수정 완료"}, status=status.HTTP_204_NO_CONTENT)
+        # 가계부의 주인인 경우에만 수정 권한 부여
+        if request.user == ledger.user:
+            serializer = LedgerSerializer(instance=ledger, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response({"message": "수정 완료"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
 
     def delete():
-        ledger.delete()
-        return Response({"message": "삭제 완료"}, status=status.HTTP_204_NO_CONTENT)
+        # 가계부의 주인인 경우에만 삭제 권한 부여
+        if request.user == ledger.user:
+            ledger.delete()
+            return Response({"message": "삭제 완료"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    # 가계부의 주인인 경우에만 조회/수정/삭제 권한 부여
-    if request.user == ledger.user:
-        if request.method == "GET":
-            return read()
-        elif request.method == "PATCH":
-            return update()
-        elif request.method == "DELETE":
-            return delete()
-    return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
+    if request.method == "GET":
+        return read()
+    elif request.method == "PATCH":
+        return update()
+    elif request.method == "DELETE":
+        return delete()
+    
 
 
 '''
@@ -99,9 +103,9 @@ def make_shorten_url(request, ledger_pk):
     
     # 가계부의 주인인 경우에만 권한 부여
     if request.user == ledger.user:
-        original_url = request.data["url"]
+        original_url = request.data["url"] # 프론트에서 보낸 url이라고 가정
         present, expiration_time = datetime.now(), datetime.now()+TIME_LIMIT
-        # 동시에 수많은 요청을 받아도 절대 안겹치게 url을 만들수 있나.
+        # 현재 시간을 같이 암호화한 이유는 다른 사람이 외워서 접속하는 것을 방지하기 위해서임
         shorten_url = sha256(original_url.encode()+str(present).encode()).hexdigest()[:8] 
         
         # DB 반영
