@@ -12,15 +12,14 @@ from .serializers import *
 # Create your views here.
 
 '''
-
-설명: 기본 테스트
+테스트
 '''
 @api_view(["GET"])
 def test(request):
     return Response({"hello":"world"})
 
 '''
-회원가입
+1. 고객은 이메일과 비밀번호 입력을 통해서 회원 가입을 할 수 있습니다. 
 '''
 @api_view(["POST"])
 def signup(request):
@@ -50,7 +49,7 @@ def signup(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 '''
-로그인
+2. 고객은 회원 가입이후, 로그인과 로그아웃을 할 수 있습니다.
 '''
 @api_view(["POST"])
 def login(request):
@@ -83,7 +82,7 @@ def login(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 '''
-로그아웃
+2. 고객은 회원 가입이후, 로그인과 로그아웃을 할 수 있습니다.
 '''
 @api_view(["DELETE"])
 def logout(request):
