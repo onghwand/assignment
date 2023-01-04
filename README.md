@@ -10,3 +10,9 @@
 ![image-20230104171857848](README.assets/image-20230104171857848.png)
 
 > HTTP 상태코드
+
+
+
+> Object Copy
+>
+> [참고](https://docs.djangoproject.com/en/3.2/topics/db/queries/#copying-model-instances)
