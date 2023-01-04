@@ -37,7 +37,7 @@ def ledger_list_or_create(request, user_pk):
 3-c. 가계부에서 삭제를 원하는 내역은 삭제 할 수 있습니다. 
 3-e. 가계부에서 상세한 세부 내역을 볼 수 있습니다.
 '''
-@api_view(["GET","PATCH","DELETE"])
+@api_view(["GET", "PATCH", "DELETE"])
 def ledger_read_or_update_or_delete(request, ledger_pk):
     ledger = get_object_or_404(Ledger, pk=ledger_pk)
 
@@ -63,23 +63,31 @@ def ledger_read_or_update_or_delete(request, ledger_pk):
             return update()
         elif request.method == "DELETE":
             return delete()
-    else:
-        return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
+    return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 '''
 3-f. 가계부의 세부 내역을 복제할 수 있습니다.
 '''
 @api_view(["GET"])
-def ledger_duplicate(request):
-    pass
+def ledger_duplicate(request, ledger_pk):
+    ledger = get_object_or_404(Ledger, pk=ledger_pk)
+
+    # 가계부의 주인인 경우에만 복제 권한 부여
+    if request.user == ledger.user:
+        # 가계부 복제
+        ledger.pk = None
+        ledger.save()
+        return Response({"message": "생성 완료"}, status=status.HTTP_201_CREATED)
+    return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
+    
 
 
 '''
 3-g. 가계부의 특정 세부 내역을 공유할 수 있게 단축 URL을 만들 수 있습니다.
 '''
 @api_view(["GET"])
-def ledger_url(request):
+def ledger_url(request, ledger_pk):
     pass
 
 
