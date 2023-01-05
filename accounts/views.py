@@ -16,7 +16,7 @@ from .serializers import *
 @api_view(["POST"])
 def signup(request):
     serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
+    if serializer.is_valid(raise_exception=True):
         user = serializer.save()
         
         # jwt
