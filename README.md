@@ -10,17 +10,9 @@
 
 ### 1. accounts
 
-- [모델링](https://iamthejiheee.tistory.com/78)
-
-![image-20230105154416134](README.assets/image-20230105154416134.png)
-
-- 비밀번호 암호화
-
-![image-20230105153957786](README.assets/image-20230105153957786.png)
+- [모델링 참고](https://iamthejiheee.tistory.com/78)
 
 - [serializer의 create](https://www.django-rest-framework.org/tutorial/1-serialization/)
-
-![image-20230105153154203](README.assets/image-20230105153154203.png)
 
 <br>
 
@@ -47,3 +39,14 @@
 
 ![image-20230106023704050](README.assets/image-20230106023704050.png)
 
+1. ledger model test에서 user를 생성해놨는데 접근이 안되는 이유를 모르겠다.
+
+2. CASCADE 테스트 코드 어떻게 만들지 고민하고 있었는데 [도움](https://stackoverflow.com/questions/32731400/django-test-doesnotexist) 받았다.
+
+3. [validation error 체크](https://velog.io/@gaya309/Django-fullclean-vs-cleanfields-vs-clean) => month 최솟값 테스트할때 썼음(full_clean)
+
+4. login testcode
+
+![image-20230106051608711](README.assets/image-20230106051608711.png)
+
+- login method 쓰니까 sessionid가 생겨버린다. post로 수정
