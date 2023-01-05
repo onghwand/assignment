@@ -41,4 +41,6 @@
 - refresh 토큰으로 access 반환하는 함수만들기
 - 각 api 로그인 여부 확인
 - testcase 작성
+- jwt 설정
+- cors
 
