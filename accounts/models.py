@@ -19,7 +19,7 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
-    objects = UserManager()
+    objects = UserManager() # 헬퍼 클래스 지정
     
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'email' # email을 아이디로 사용
     

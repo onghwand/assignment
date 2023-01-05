@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate
 
 from rest_framework import status
@@ -12,13 +11,6 @@ from .serializers import *
 # Create your views here.
 
 '''
-테스트
-'''
-@api_view(["GET"])
-def test(request):
-    return Response({"hello":"world"})
-
-'''
 1. 고객은 이메일과 비밀번호 입력을 통해서 회원 가입을 할 수 있습니다. 
 '''
 @api_view(["POST"])
@@ -26,12 +18,12 @@ def signup(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-
+        
         # jwt
         token = TokenObtainPairSerializer.get_token(user)
         refresh_token = str(token)
         access_token = str(token.access_token)
-        res = Response(
+        response = Response(
             {
                 "user": serializer.data,
                 "token": {
@@ -43,9 +35,9 @@ def signup(request):
         )
 
         # jwt 토큰 쿠키 저장(httponly => js로 조회 x)
-        res.set_cookie("access", access_token, httponly=True)
-        res.set_cookie("refresh", refresh_token, httponly=True)
-        return res
+        response.set_cookie("access", access_token, httponly=True)
+        response.set_cookie("refresh", refresh_token, httponly=True)
+        return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 '''
