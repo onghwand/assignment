@@ -25,11 +25,11 @@ def signup(request):
         access_token = str(token.access_token)
         response = Response(
             {
-                "user": serializer.data,
                 "token": {
                     "access": access_token,
                     "refresh": refresh_token,
                 },
+                "user": serializer.data, 
             },
             status=status.HTTP_201_CREATED
         )
@@ -58,11 +58,11 @@ def login(request):
         access_token = str(token.access_token)
         response = Response(
             {
-                "user": serializer.data,
                 "token": {
                     "access": access_token,
                     "refresh": refresh_token,
                 },
+                "user": serializer.data,
             },
             status=status.HTTP_200_OK,
         )
@@ -78,7 +78,6 @@ def login(request):
 '''
 @api_view(["DELETE"])
 def logout(request):
-    # 로그인상태 확인할 필요 있는지 찾아보기
     # 쿠키에 저장된 토큰 삭제
     response = Response(status=status.HTTP_204_NO_CONTENT)
     response.delete_cookie("access")
