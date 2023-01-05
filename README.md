@@ -38,6 +38,7 @@
 > 남은 일
 
 - model 제한조건 (month min-max같은 거)
+- refresh 토큰으로 access 반환하는 함수만들기
 - 각 api 로그인 여부 확인
 - testcase 작성
 
