@@ -11,6 +11,7 @@ django = "3.2.12"
 mysqlclient = "^2.1.1"
 djangorestframework = "^3.14.0"
 djangorestframework-simplejwt = "^5.2.2"
+django-cors-headers = "^3.13.0"
 
 
 [build-system]

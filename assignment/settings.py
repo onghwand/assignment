@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # 3rd party
     'rest_framework',
     'rest_framework_simplejwt',
-    
+    'corsheaders',
+
     # native
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -159,4 +161,5 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True, # 새롭게 받을 때 기존의 refresh token은 blacklist
 }
 
-# CORS 
+# CORS
+CORS_ORIGIN_ALLOW_ALL=True 
