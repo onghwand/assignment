@@ -29,12 +29,13 @@ def ledger_list_or_create(request, user_pk):
             serializer.save(user=request.user)
             return Response({"message": "생성 완료"}, status=status.HTTP_201_CREATED)
 
-    # 로그인 여부 확인하기
-
-    if request.method == "GET":
-        return ledger_list()
-    elif request.method == "POST":
-        return create_ledger()
+    # 가계부 주인 여부 확인
+    if request.user.pk == user_pk:
+        if request.method == "GET":
+            return ledger_list()
+        elif request.method == "POST":
+            return create_ledger()
+    return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 '''
@@ -103,9 +104,9 @@ def make_shorten_url(request, ledger_pk):
     
     # 가계부의 주인인 경우에만 권한 부여
     if request.user == ledger.user:
-        original_url = request.data["url"] # 프론트에서 보낸 url이라고 가정
+        original_url = request.data["url"] # 프론트에서 보낸 장문의 url이라고 가정
         present, expiration_time = datetime.now(), datetime.now()+TIME_LIMIT
-        # 현재 시간을 같이 암호화한 이유는 다른 사람이 외워서 접속하는 것을 방지하기 위해서임
+        # 현재 시간을 같이 암호화한 이유는 다른 사람이 외워서 접속하는 것을 방지하기 위함
         shorten_url = sha256(original_url.encode()+str(present).encode()).hexdigest()[:8] 
         
         # DB 반영
