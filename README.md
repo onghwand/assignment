@@ -1,6 +1,14 @@
 ## :book: 가계부
 
-> accounts
+### 0. 설계
+
+> ERD
+
+![image-20230105031741816](README.assets/image-20230105031741816.png)
+
+<br>
+
+### 1. accounts
 
 - [모델링](https://iamthejiheee.tistory.com/78)
 
@@ -14,9 +22,9 @@
 
 ![image-20230105153154203](README.assets/image-20230105153154203.png)
 
-> ERD
+<br>
 
-![image-20230105031741816](README.assets/image-20230105031741816.png)
+### 2. ledger
 
 > [3-f. 가계부의 세부 내역을 복제할 수 있습니다.](https://docs.djangoproject.com/en/3.2/topics/db/queries/#copying-model-instances)
 
@@ -33,14 +41,15 @@
 > 2. 가계부이기 때문에 원래는 세부 내역 조회에 대해서도 본인만 볼 수 있게 조건문을 걸어뒀었는데, 그러면 단축 url을 줬을 때 다른 사람이 못보니까 풀었다.
 > 3. 내가 만든게 단축 url이라고 말할 수 있을만큼 짧은지 잘 모르겠다.
 
+<br>
 
+### 3. to do 
 
-> 남은 일
+- 년월일 제한조건
+  - 월,일만 제한조건을 걸어놓긴 했는데 이것도 애매한 부분이 있다.
 
-- model 제한조건 (month min-max같은 거)
 - refresh 토큰으로 access 반환하는 함수만들기
-- 각 api 로그인 여부 확인
 - testcase 작성
-- jwt 설정
+- jwt 세부 설정
 - cors
 
