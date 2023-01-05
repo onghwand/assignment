@@ -39,16 +39,11 @@
 >
 > 1. 여러 요청들에 대해서 url이 겹치지 않게 할 수 있는지 잘 모르겠다는 것 => 일단 sha256(기존url+현재시간)[:8]로 함
 > 2. 가계부이기 때문에 원래는 세부 내역 조회에 대해서도 본인만 볼 수 있게 조건문을 걸어뒀었는데, 그러면 단축 url을 줬을 때 다른 사람이 못보니까 풀었다.
-> 3. 내가 만든게 단축 url이라고 말할 수 있을만큼 짧은지 잘 모르겠다.
+> 3. 단축 url 길이 기준
 
 <br>
 
-### 3. to do 
+### 3. [TestCase](https://developer.mozilla.org/ko/docs/Learn/Server-side/Django/Testing)
 
-- 년월일 제한조건
-  - 월,일만 제한조건을 걸어놓긴 했는데 이것도 애매한 부분이 있다.
-- refresh 토큰으로 access 반환하는 함수만들기
-- testcase 작성
-- jwt 세부 설정
-- cors
+![image-20230106023704050](README.assets/image-20230106023704050.png)
 
