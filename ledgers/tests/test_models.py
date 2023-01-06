@@ -14,12 +14,12 @@ class LedgersModelTest(TestCase):
     # 유저 label 
     def test_user_label(self):
         field_label = Ledger._meta.get_field("user").verbose_name
-        self.assertEquals(field_label, "user")
+        self.assertEqual(field_label, "user")
     
     # memo 최대 길이
     def test_memo_max_length(self):
         max_length = Ledger._meta.get_field("memo").max_length
-        self.assertEquals(max_length, 256)
+        self.assertEqual(max_length, 256)
 
     # memo null 가능
     def test_memo_null_is_true(self):
@@ -36,5 +36,5 @@ class LedgersModelTest(TestCase):
     def test_user_on_delete_CASCADE(self):
         ledger=Ledger.objects.get(id=1)
         ledger.user.delete()
-        self.assertEquals(0, Ledger.objects.all().count())
+        self.assertEqual(Ledger.objects.all().count(), 0)
     
