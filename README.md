@@ -50,3 +50,29 @@
 ![image-20230106051608711](README.assets/image-20230106051608711.png)
 
 - login method 쓰니까 sessionid가 생겨버린다. post로 수정
+
+5. 단축 url 만료 test 구현 못했다..
+
+<br>
+
+### 4. Swagger
+
+![image-20230106165444661](README.assets/image-20230106165444661.png)
+
+<br>
+
+### 5. 마무리
+
+> 지금까지 testcode를 안쓰고 postman으로만 테스트했었는데 testcode 써보니까 쓰는게 좋을 것 같다. 
+>
+> 이번에도 결국엔 postman으로 다 테스트 하고 구색맞추기 testcode를 만들긴 했다.
+>
+> 근데 testcode 짜다 보면 시간을 너무 많이 잡아 먹을 것 같은 느낌이라 큰 프로젝트가 아니면 굳이 일것같다.
+>
+> 심지어 이번에는 edge case 관련 test보다는 그냥 당연한 걸 test하는 느낌으로 만들었는데 이게 test의 목적인지는 잘 모르겠다.
+>
+> 처음에는 노션에 정리하면서 하려고 했는데 귀찮아서 api 문서도 안만들었다..
+>
+> 확실히 혼자하니까 그냥 혼자 머리속으로 생각하고 넘어가는 것들이 많다
+>
+> https://solid-stream-5c3.notion.site/Assignment-475aef8714444d178ce0252870e599b5
