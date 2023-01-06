@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 @api_view(["GET", "POST"])
 def ledger_list_or_create(request, user_pk):
     def ledger_list():
-        ledgers = get_list_or_404(Ledger, user=user_pk)
+        ledgers = get_list_or_404(Ledger.objects.order_by("-year","-month","-day"), user=user_pk)
         serializer = LedgerListSerializer(ledgers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -99,7 +99,7 @@ def ledger_duplicate(request, ledger_pk):
 @api_view(["POST"])
 def make_shorten_url(request, ledger_pk):
     # 단축 url 제한 시간
-    TIME_LIMIT = timedelta(seconds=60)
+    TIME_LIMIT = timedelta(seconds=10)
     ledger = get_object_or_404(Ledger, pk=ledger_pk)
     
     # 가계부의 주인인 경우에만 권한 부여
