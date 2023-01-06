@@ -1,6 +1,12 @@
 ## :book: 가계부
 
-### 0. 설계
+### 0. 환경
+
+- 언어 : Python 3.9
+- DB : MySQL 5.7
+- framework: Django 3.2.12
+
+### 1. 설계
 
 > ERD
 
@@ -8,7 +14,7 @@
 
 <br>
 
-### 1. accounts
+### 2. accounts
 
 - [모델링 참고](https://iamthejiheee.tistory.com/78)
 
@@ -16,7 +22,7 @@
 
 <br>
 
-### 2. ledger
+### 3. ledger
 
 > [3-f. 가계부의 세부 내역을 복제할 수 있습니다.](https://docs.djangoproject.com/en/3.2/topics/db/queries/#copying-model-instances)
 
@@ -35,7 +41,7 @@
 
 <br>
 
-### 3. [TestCase](https://developer.mozilla.org/ko/docs/Learn/Server-side/Django/Testing)
+### 4. [TestCase](https://developer.mozilla.org/ko/docs/Learn/Server-side/Django/Testing)
 
 ![image-20230106023704050](README.assets/image-20230106023704050.png)
 
@@ -55,13 +61,13 @@
 
 <br>
 
-### 4. Swagger
+### 5. Swagger
 
 ![image-20230106165444661](README.assets/image-20230106165444661.png)
 
 <br>
 
-### 5. 마무리
+### 6. 마무리
 
 > 지금까지 testcode를 안쓰고 postman으로만 테스트했었는데 testcode 써보니까 쓰는게 좋을 것 같다. 
 >
