@@ -99,7 +99,7 @@ def ledger_duplicate(request, ledger_pk):
 @api_view(["POST"])
 def make_shorten_url(request, ledger_pk):
     # 단축 url 제한 시간
-    TIME_LIMIT = timedelta(seconds=10)
+    TIME_LIMIT = timedelta(minutes=10)
     ledger = get_object_or_404(Ledger, pk=ledger_pk)
     
     # 가계부의 주인인 경우에만 권한 부여
