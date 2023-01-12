@@ -10,9 +10,15 @@
 
 ### 1. 설계
 
+> API
+
+![image-20230112211554550](README.assets/image-20230112211554550.png)
+
+![image-20230112211645453](README.assets/image-20230112211645453.png)
+
 > ERD
 
-![image-20230105031741816](README.assets/image-20230105031741816.png)
+![image-20230112202703351](README.assets/image-20230112202703351.png)
 
 <br>
 
@@ -78,4 +84,3 @@
 > 근데 testcode 짜다 보면 시간을 너무 많이 잡아 먹을 것 같은 느낌이라 큰 프로젝트가 아니면 굳이 일것같다.
 >
 > 심지어 이번에는 edge case 관련 test보다는 그냥 당연한 걸 test하는 느낌으로 만들었는데 이게 test의 목적인지는 잘 모르겠다.
->
