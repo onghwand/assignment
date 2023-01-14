@@ -51,28 +51,25 @@ def ledger_read_or_update_or_delete(request, ledger_pk):
         serializer = LedgerSerializer(ledger)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def update():
-        # 가계부의 주인인 경우에만 수정 권한 부여
-        if request.user == ledger.user:
-            serializer = LedgerSerializer(instance=ledger, data=request.data, partial=True)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response({"message": "수정 완료"}, status=status.HTTP_204_NO_CONTENT)
-        return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
-
+    def update():       
+        serializer = LedgerSerializer(instance=ledger, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({"message": "수정 완료"}, status=status.HTTP_204_NO_CONTENT)
+        
     def delete():
-        # 가계부의 주인인 경우에만 삭제 권한 부여
-        if request.user == ledger.user:
-            ledger.delete()
-            return Response({"message": "삭제 완료"}, status=status.HTTP_204_NO_CONTENT)
-        return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
+        ledger.delete()
+        return Response({"message": "삭제 완료"}, status=status.HTTP_204_NO_CONTENT)
 
-    if request.method == "GET":
-        return read()
-    elif request.method == "PATCH":
-        return update()
-    elif request.method == "DELETE":
-        return delete()
+    # 가계부의 주인인 경우에만 권한 부여  
+    if request.user == ledger.user:
+        if request.method == "GET":
+            return read()
+        elif request.method == "PATCH":
+            return update()
+        elif request.method == "DELETE":
+            return delete()
+    return Response({"message": "권한 없음"}, status=status.HTTP_401_UNAUTHORIZED)
     
 
 
