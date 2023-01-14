@@ -4,7 +4,10 @@ from django.urls import reverse
 from accounts.models import User
 from ledgers.models import Ledger
 
-import time
+# from unittest import mock
+from datetime import datetime, timedelta
+from freezegun import freeze_time
+
 class LedgersViewTest(TestCase):
     @classmethod
     def setUpTestData(cls): 
@@ -15,6 +18,7 @@ class LedgersViewTest(TestCase):
         for ledger_id in range(number_of_ledgers):
             Ledger.objects.create(user=user1, memo=f"pay{ledger_id}", cashflow=100, year=2023, month=1, day=6)
             Ledger.objects.create(user=user2, memo=f"here{ledger_id}", cashflow=200, year=2023, month=1, day=2)
+        
 
     # 가계부 리스트 조회
     def test_ledger_list(self):
@@ -74,13 +78,14 @@ class LedgersViewTest(TestCase):
 
     # 가계부 상세정보 조회
     def test_ledger_detail(self):
+        token = self.client.post(reverse("accounts:login"),{"email":"pay@here.com", "password":"payhere"}).data["token"]["access"]
         ledger = Ledger.objects.get(memo="pay1")
-        response = self.client.get(f"/api/v1/ledgers/{ledger.pk}/detail/")
+        response = self.client.get(f"/api/v1/ledgers/{ledger.pk}/detail/", **{"HTTP_AUTHORIZATION": f"Bearer {token}"})
         self.assertEqual(response.status_code, 200)
     
         # reverse 사용
         ledger = Ledger.objects.get(memo="pay1")
-        response = self.client.get(reverse("ledgers:read_or_update_or_delete", kwargs={"ledger_pk":ledger.pk}))
+        response = self.client.get(reverse("ledgers:read_or_update_or_delete", kwargs={"ledger_pk":ledger.pk}), **{"HTTP_AUTHORIZATION": f"Bearer {token}"})
         self.assertEqual(response.status_code, 200)
 
     # 가계부 복제
@@ -92,25 +97,41 @@ class LedgersViewTest(TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Ledger.objects.filter(memo="pay1").count(), 2)
 
-    # 가계부 단축 url
-    def test_create_shorten_url(self):
-        token = self.client.post(reverse("accounts:login"),{"email":"pay@here.com", "password":"payhere"}).data["token"]["access"]
-        ledger = Ledger.objects.get(memo="pay1")
-        data = {"url": f"http://127.0.0.1:8000/api/v1/ledgers/{ledger.pk}/detail/"}
-        response = self.client.post(reverse("ledgers:shorten_url", kwargs={"ledger_pk":ledger.pk}), data=data, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})
-        self.assertEqual(response.status_code, 201)
+    # 가계부 단축 url (생성, 만료시간) 
+    # => 생성과 만료시간 테스트를 분리하는게 좋은건지, view의 TIME_LIMIT 변수 밖으로 빼서 가져오는게 좋은건지
+    def test_expiration_time_of_shorten_url(self):
+        created_at = datetime(2023, 1, 14, 17, 23, 10) # 단축 url 생성 시간
+        still_active_at = created_at + timedelta(minutes=9, seconds=59) # 만료 직전(1초전)
+        expired_at = created_at + timedelta(minutes=10) # 만료 시점
+
+        with freeze_time(created_at) as frozen_datetime:
+            # 단축 url 생성
+            token = self.client.post(reverse("accounts:login"),{"email":"pay@here.com", "password":"payhere"}).data["token"]["access"]
+            ledger = Ledger.objects.get(memo="pay1")
+            data = {"url": "https://payhere.in/"}
+
+            # 생성 확인
+            response = self.client.post(reverse("ledgers:shorten_url", kwargs={"ledger_pk":ledger.pk}), data=data, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})
+            self.assertEqual(response.status_code, 201)
+
+            # 단축 url 생성 직후 연결 확인
+            ledger = Ledger.objects.get(memo="pay1")
+            response = self.client.get(reverse("redirect_shorten_url", kwargs={"shorten_url":ledger.shorten_url}))
+            self.assertEqual(response.status_code, 302)
+
+            # 만료시간 테스트
+
+            # 9분 59초는 302
+            frozen_datetime.move_to(still_active_at)
+            response = self.client.get(reverse("redirect_shorten_url", kwargs={"shorten_url":ledger.shorten_url}))
+            self.assertEqual(response.status_code, 302)
+            # 10분은 404
+            frozen_datetime.move_to(expired_at)
+            response = self.client.get(reverse("redirect_shorten_url", kwargs={"shorten_url":ledger.shorten_url}))
+            self.assertEqual(response.status_code, 404)
+
+
         
-        # 만료 시간 테스트
-        # seconds = 0
-        # for i in range(3):
-        #     time.sleep(5)
-        #     seconds += 5
-        #     print(seconds)
-            
-        #     if i <= 2:
-        #         res = self.client.get(response.data["shorten_url"])
-        #         self.assertEqual(res.status_code, 301)
-        #         print(res.data)
             
 
         
