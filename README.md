@@ -65,6 +65,45 @@
 
 5. 단축 url 만료 test 구현 못했다..
 
+- [1차 시도 실패](https://dev-yakuza.posstree.com/ko/django/test/models/)
+
+```python
+# 가계부 단축 url 만료시간
+    def test_expiration_time_of_shorten_url(self):
+        # mock_date = datetime(2023, 1, 14, 17, 23, 10)
+        mock_date = datetime.now()
+        with mock.patch("django.utils.timezone.now") as mock_now:
+            mock_now.return_value = mock_date
+            print(mock_now.return_value)
+
+            # 단축 url 생성
+            token = self.client.post(reverse("accounts:login"),{"email":"pay@here.com", "password":"payhere"}).data["token"]["access"]
+            ledger = Ledger.objects.get(memo="pay1")
+            data = {"url": "https://payhere.in/"}
+            response = self.client.post(reverse("ledgers:shorten_url", kwargs={"ledger_pk":ledger.pk}), data=data, **{"HTTP_AUTHORIZATION": f"Bearer {token}"})
+        
+        self.assertEqual(response.status_code, 201)
+        ledger = Ledger.objects.get(memo="pay1")
+        print(ledger.shorten_url)
+        print(ledger.expiration_time)
+        response = self.client.get(reverse("redirect_shorten_url", kwargs={"shorten_url":ledger.shorten_url}))
+        print(response.status_code)
+        self.assertEqual(response.status_code, 302)
+
+        TIME_LIMIT = timedelta(minutes=10)
+        mock_date += TIME_LIMIT*2
+        with mock.patch("django.utils.timezone.now") as mock_now:
+            mock_now.return_value = mock_date
+            print(mock_now.return_value)
+            response = self.client.get(reverse("redirect_shorten_url", kwargs={"shorten_url":ledger.shorten_url}))
+
+        print(response.status_code)
+        # self.assertEqual(response.status_code, 404)
+```
+
+- [2차 시도 성공](https://minwook-shin.github.io/python-mocking-datetime-module-using-freezegun/)
+  - freezegun이라는 라이브러리 이용
+
 <br>
 
 ### 5. Swagger
