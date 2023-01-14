@@ -40,5 +40,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/accounts/', include('accounts.urls')),
     path('api/v1/ledgers/', include('ledgers.urls')),
-    path("<shorten_url>/", views.redirect_shorten_url),
+    path("<shorten_url>/", views.redirect_shorten_url, name="redirect_shorten_url"),
 ]
