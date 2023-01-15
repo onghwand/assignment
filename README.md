@@ -28,6 +28,8 @@
 
 - [serializer의 create](https://www.django-rest-framework.org/tutorial/1-serialization/)
 
+  ![image-20230115142506595](README.assets/image-20230115142506595.png)
+
 <br>
 
 ### 3. ledger
@@ -66,7 +68,7 @@
 
 - login method 쓰니까 sessionid가 생겨버린다. post로 수정
 
-5. 단축 url 만료 test 구현 못했다..
+5. 단축 url 만료 test 구현 못했다.. 
 
 - [1차 시도 실패](https://dev-yakuza.posstree.com/ko/django/test/models/)
 
