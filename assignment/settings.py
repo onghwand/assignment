@@ -160,6 +160,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1), # refresh token 유효 기간
     'ROTATE_REFRESH_TOKENS': False, # False => refresh 토큰을 보냈을 때 access만 새롭게 받음
     'BLACKLIST_AFTER_ROTATION': False, # 새롭게 받을 때 기존의 refresh token은 blacklist
+    'UPDATE_LAST_LOGIN': False, # True로 했을 때 update 안되는 문제 해결 못함
 }
 
 # CORS
