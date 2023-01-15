@@ -8,6 +8,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .serializers import *
 
+from datetime import datetime
+
 # Create your views here.
 
 '''
@@ -49,6 +51,9 @@ def login(request):
     user = authenticate(
         email=request.data.get("email"), password=request.data.get("password")
     )
+    # 유저 last_login update
+    # user.last_login = datetime.now()
+    # user.save()
     # 유저 존재
     if user is not None:
         serializer = UserSerializer(user)
