@@ -156,9 +156,9 @@ REST_FRAMEWORK = {
 
 # jwt 설정
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2), # access token 유효 기간
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7), # refresh token 유효 기간
-    'ROTATE_REFRESH_TOKENS': True, # False => refresh 토큰을 보냈을 때 access만 새롭게 받음
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1), # access token 유효 기간
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1), # refresh token 유효 기간
+    'ROTATE_REFRESH_TOKENS': False, # False => refresh 토큰을 보냈을 때 access만 새롭게 받음
     'BLACKLIST_AFTER_ROTATION': False, # 새롭게 받을 때 기존의 refresh token은 blacklist
 }
 
